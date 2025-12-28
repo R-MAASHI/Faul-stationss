@@ -150,7 +150,8 @@ function calc(){
         let totalAmount = t1 + t2 + t3;
         let totalCap = c1 + c2 + c3;
 
-        let percent = totalCap ? (totalAmount / totalCap).toFixed(2) : "";
+        // تعديل النسبة لتكون زي الكود الأسود بدون تقريب
+        let percent = totalCap ? totalAmount / totalCap : "";
         document.getElementById(`r_${f}`).innerText = percent;
     });
 }
