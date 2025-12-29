@@ -150,8 +150,8 @@ function calc(){
         let totalAmount = t1 + t2 + t3;
         let totalCap = c1 + c2 + c3;
 
-        // تعديل النسبة لتكون زي الكود الأسود بدون تقريب
-        let percent = totalCap ? totalAmount / totalCap : "";
+        // النسبة أول 5 أرقام فقط
+        let percent = totalCap ? (totalAmount / totalCap).toString().slice(0,5) : "";
         document.getElementById(`r_${f}`).innerText = percent;
     });
 }
