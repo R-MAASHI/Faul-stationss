@@ -2,158 +2,136 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>حاسبة محطات الوقود</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جدول المحطات – أنيق</title>
 <style>
 body {
-    font-family: "Tajawal", sans-serif;
-    background: #f2f2f2;
-    padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
-h2 {
-    text-align: center;
-}
+
 table {
-    border-collapse: collapse;
-    margin: auto;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 950px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  overflow: hidden;
 }
+
 th, td {
-    border: 1px solid #aaa;
-    text-align: center;
-    font-size: 14px;
-    width: 100px;
-    height: 50px;
+  padding: 12px 15px;
+  text-align: center;
 }
+
 th {
-    background: #333;
-    color: #fff;
+  background-color: #e2e2e2;
+  font-size: 16px;
+  letter-spacing: 0.5px;
 }
-.col-91 { background: #4caf50; color:#fff;} /* أخضر واضح */
-.col-95 { background: #f44336; color:#fff;} /* أحمر واضح */
-.col-d  { background: #ffeb3b; color:#333;} /* أصفر واضح */
-input {
-    width: 90%;
-    height: 30px;
-    padding: 3px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 14px;
+
+.col1 { background-color: #fff8e1; font-weight: bold; }
+.col2 { background-color: #c8e6c9; font-weight: bold; }
+.col3 { background-color: #f8bbd0; font-weight: bold; }
+.col4 { background-color: #fff9c4; font-weight: bold; }
+
+tr:nth-child(even):not(:first-child) td { background-color: #f9f9f9; }
+
+input[type=number] {
+  width: 80px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+  background: transparent;
+  color: inherit;
 }
+
+input[type=number]:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 5px rgba(63,81,181,0.3);
+}
+
 .result {
-    font-weight: bold;
-    background: #eee;
-}
-.small-input {
-    width: 60px;
+  font-weight: bold;
+  display: block;
+  margin-top: 3px;
+  font-size: 14px;
+  color: #333;
 }
 </style>
 </head>
 <body>
 
-<h2>حاسبة محطات الوقود</h2>
-
 <table>
-    <tr>
-        <th>البيانات</th>
-        <th class="col-91">91</th>
-        <th class="col-95">95</th>
-        <th class="col-d">D</th>
-    </tr>
+  <tr>
+    <th class="col1">الوصف</th>
+    <th class="col2">91</th>
+    <th class="col3">95</th>
+    <th class="col4">D</th>
+  </tr>
 
-    <tr>
-        <td>ادخل الاستهلاك اليومي</td>
-        <td><input type="number" oninput="updateConsumption()" id="daily_91" placeholder="كمية"></td>
-        <td><input type="number" oninput="updateConsumption()" id="daily_95" placeholder="كمية"></td>
-        <td><input type="number" oninput="updateConsumption()" id="daily_d" placeholder="كمية"></td>
-    </tr>
+  <tr>
+    <td class="col1">كمية الاستهلاك</td>
+    <td class="col2"><input type="number" id="c91" oninput="calcConsumption('c91')"><span class="result" id="r_c91"></span></td>
+    <td class="col3"><input type="number" id="c95" oninput="calcConsumption('c95')"><span class="result" id="r_c95"></span></td>
+    <td class="col4"><input type="number" id="cD" oninput="calcConsumption('cD')"><span class="result" id="r_cD"></span></td>
+  </tr>
 
-    <tr>
-        <td>كمية الاستهلاك × 7</td>
-        <td><input type="number" id="consumption_91" readonly class="small-input"></td>
-        <td><input type="number" id="consumption_95" readonly class="small-input"></td>
-        <td><input type="number" id="consumption_d" readonly class="small-input"></td>
-    </tr>
+  <tr>
+    <td class="col1">الكمية المتوفرة</td>
+    <td class="col2"><input type="number" id="available91" oninput="calcPercentage()"></td>
+    <td class="col3"><input type="number" id="available95" oninput="calcPercentage()"></td>
+    <td class="col4"><input type="number" id="availableD" oninput="calcPercentage()"></td>
+  </tr>
 
-    <tr>
-        <td>الكمية المتوفرة في الخزان 1</td>
-        <td><input type="number" oninput="calc()" id="t1_91"></td>
-        <td><input type="number" oninput="calc()" id="t1_95"></td>
-        <td><input type="number" oninput="calc()" id="t1_d"></td>
-    </tr>
+  <tr>
+    <td class="col1">سعة الخزانات</td>
+    <td class="col2"><input type="number" id="capacity91" oninput="calcPercentage()"></td>
+    <td class="col3"><input type="number" id="capacity95" oninput="calcPercentage()"></td>
+    <td class="col4"><input type="number" id="capacityD" oninput="calcPercentage()"></td>
+  </tr>
 
-    <tr>
-        <td>الكمية المتوفرة في الخزان 2</td>
-        <td><input type="number" oninput="calc()" id="t2_91"></td>
-        <td><input type="number" oninput="calc()" id="t2_95"></td>
-        <td><input type="number" oninput="calc()" id="t2_d"></td>
-    </tr>
-
-    <tr>
-        <td>الكمية المتوفرة في الخزان 3</td>
-        <td><input type="number" oninput="calc()" id="t3_91"></td>
-        <td><input type="number" oninput="calc()" id="t3_95"></td>
-        <td><input type="number" oninput="calc()" id="t3_d"></td>
-    </tr>
-
-    <tr>
-        <td>سعة الخزان 1</td>
-        <td><input type="number" oninput="calc()" id="c1_91"></td>
-        <td><input type="number" oninput="calc()" id="c1_95"></td>
-        <td><input type="number" oninput="calc()" id="c1_d"></td>
-    </tr>
-
-    <tr>
-        <td>سعة الخزان 2</td>
-        <td><input type="number" oninput="calc()" id="c2_91"></td>
-        <td><input type="number" oninput="calc()" id="c2_95"></td>
-        <td><input type="number" oninput="calc()" id="c2_d"></td>
-    </tr>
-
-    <tr>
-        <td>سعة الخزان 3</td>
-        <td><input type="number" oninput="calc()" id="c3_91"></td>
-        <td><input type="number" oninput="calc()" id="c3_95"></td>
-        <td><input type="number" oninput="calc()" id="c3_d"></td>
-    </tr>
-
-    <tr>
-        <td>نسبة المخزون المتوفرة</td>
-        <td class="result" id="r_91"></td>
-        <td class="result" id="r_95"></td>
-        <td class="result" id="r_d"></td>
-    </tr>
+  <tr>
+    <td class="col1">النسبة</td>
+    <td class="col2"><span class="result" id="percent91">0</span></td>
+    <td class="col3"><span class="result" id="percent95">0</span></td>
+    <td class="col4"><span class="result" id="percentD">0</span></td>
+  </tr>
 </table>
 
 <script>
-function updateConsumption(){
-    const fuels = ["91","95","d"];
-    fuels.forEach(f => {
-        let daily = +document.getElementById(`daily_${f}`).value || 0;
-        document.getElementById(`consumption_${f}`).value = daily * 7;
-    });
-    calc();
+function calcConsumption(id) {
+  const input = document.getElementById(id);
+  const result = document.getElementById('r_' + id);
+  const value = parseFloat(input.value);
+  if(!isNaN(value)) {
+    result.innerText = ' → ' + (value * 7);
+  } else {
+    result.innerText = '';
+  }
 }
 
-function calc(){
-    const fuels = ["91","95","d"];
-    fuels.forEach(f => {
-        let t1 = +document.getElementById(`t1_${f}`).value || 0;
-        let t2 = +document.getElementById(`t2_${f}`).value || 0;
-        let t3 = +document.getElementById(`t3_${f}`).value || 0;
-        let c1 = +document.getElementById(`c1_${f}`).value || 0;
-        let c2 = +document.getElementById(`c2_${f}`).value || 0;
-        let c3 = +document.getElementById(`c3_${f}`).value || 0;
+function calcPercentage() {
+  const types = ['91', '95', 'D'];
+  types.forEach(type => {
+    const available = parseFloat(document.getElementById('available'+type).value);
+    const capacity = parseFloat(document.getElementById('capacity'+type).value);
+    const percent = document.getElementById('percent'+type);
 
-        let totalAmount = t1 + t2 + t3;
-        let totalCap = c1 + c2 + c3;
-
-        // تعديل النسبة لتكون زي الكود الأسود بدون تقريب
-        let percent = totalCap ? totalAmount / totalCap : "";
-        document.getElementById(`r_${f}`).innerText = percent;
-    });
+    if(!isNaN(available) && !isNaN(capacity) && capacity !== 0){
+      const value = available / capacity;
+      percent.innerText = Number(value).toPrecision(5);
+    } else {
+      percent.innerText = '0';
+    }
+  });
 }
 </script>
 
