@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+# Fuel-calculator<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -33,10 +33,10 @@ th {
   letter-spacing: 0.5px;
 }
 
-.col1 { background-color: #fff8e1; font-weight: bold; }
-.col2 { background-color: #c8e6c9; font-weight: bold; }
-.col3 { background-color: #f8bbd0; font-weight: bold; }
-.col4 { background-color: #fff9c4; font-weight: bold; }
+.col1 { background-color: #fff8e1; font-weight: bold; } /* بيج فاتح */
+.col2 { background-color: #c8e6c9; font-weight: bold; } /* أخضر فاتح */
+.col3 { background-color: #f8bbd0; font-weight: bold; } /* أحمر وردي فاتح */
+.col4 { background-color: #fff9c4; font-weight: bold; } /* أصفر ذهبي فاتح */
 
 tr:nth-child(even):not(:first-child) td { background-color: #f9f9f9; }
 
@@ -104,6 +104,49 @@ input[type=number]:focus {
     <td class="col3"><span class="result" id="percent95">0</span></td>
     <td class="col4"><span class="result" id="percentD">0</span></td>
   </tr>
+
+  <tr>
+    <td class="col1">عدد الخزانات</td>
+    <td class="col2"><input type="number" id="tanks91"></td>
+    <td class="col3"><input type="number" id="tanks95"></td>
+    <td class="col4"><input type="number" id="tanksD"></td>
+  </tr>
+
+  <tr>
+    <td class="col1">خزانات لا تعمل</td>
+    <td class="col2"><input type="number" id="ntanks91"></td>
+    <td class="col3"><input type="number" id="ntanks95"></td>
+    <td class="col4"><input type="number" id="ntanksD"></td>
+  </tr>
+
+  <tr>
+    <td class="col1">عدد المضخات</td>
+    <td class="col2"><input type="number" id="pumps91"></td>
+    <td class="col3"><input type="number" id="pumps95"></td>
+    <td class="col4"><input type="number" id="pumpsD"></td>
+  </tr>
+
+  <tr>
+    <td class="col1">مضخات لا تعمل</td>
+    <td class="col2"><input type="number" id="npumps91"></td>
+    <td class="col3"><input type="number" id="npumps95"></td>
+    <td class="col4"><input type="number" id="npumpsD"></td>
+  </tr>
+
+  <tr>
+    <td class="col1">عدد الاهواز</td>
+    <td class="col2"><input type="number" id="valves91"></td>
+    <td class="col3"><input type="number" id="valves95"></td>
+    <td class="col4"><input type="number" id="valvesD"></td>
+  </tr>
+
+  <tr>
+    <td class="col1">اهواز لا تعمل</td>
+    <td class="col2"><input type="number" id="nvalves91"></td>
+    <td class="col3"><input type="number" id="nvalves95"></td>
+    <td class="col4"><input type="number" id="nvalvesD"></td>
+  </tr>
+
 </table>
 
 <script>
@@ -124,10 +167,8 @@ function calcPercentage() {
     const available = parseFloat(document.getElementById('available'+type).value);
     const capacity = parseFloat(document.getElementById('capacity'+type).value);
     const percent = document.getElementById('percent'+type);
-
     if(!isNaN(available) && !isNaN(capacity) && capacity !== 0){
-      const value = available / capacity;
-      percent.innerText = Number(value).toPrecision(5);
+      percent.innerText = (available / capacity).toFixed(2);
     } else {
       percent.innerText = '0';
     }
