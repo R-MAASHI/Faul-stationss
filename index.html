@@ -1,176 +1,123 @@
-# Fuel-calculator<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>جدول المحطات – أنيق</title>
+<title>حاسبة محطات الوقود</title>
+
 <style>
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f2f5;
-  display: flex;
-  justify-content: center;
-  padding: 30px;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  padding: 10px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
-  max-width: 950px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  border-radius: 12px;
-  overflow: hidden;
+  border-collapse: collapse;
 }
 
 th, td {
-  padding: 12px 15px;
-  text-align: center;
-}
-
-th {
-  background-color: #e2e2e2;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-}
-
-.col1 { background-color: #fff8e1; font-weight: bold; } /* بيج فاتح */
-.col2 { background-color: #c8e6c9; font-weight: bold; } /* أخضر فاتح */
-.col3 { background-color: #f8bbd0; font-weight: bold; } /* أحمر وردي فاتح */
-.col4 { background-color: #fff9c4; font-weight: bold; } /* أصفر ذهبي فاتح */
-
-tr:nth-child(even):not(:first-child) td { background-color: #f9f9f9; }
-
-input[type=number] {
-  width: 80px;
-  text-align: center;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 5px;
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s;
-  background: transparent;
-  color: inherit;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
 }
 
-input[type=number]:focus {
-  border-color: #3f51b5;
-  box-shadow: 0 0 5px rgba(63,81,181,0.3);
+/* العناوين */
+.head-data { background:#2b2b2b; color:#fff; }
+.head-91 { background:#4CAF50; color:#fff; }
+.head-95 { background:#F44336; color:#fff; }
+.head-D  { background:#FFEB3B; color:#000; }
+
+/* الأعمدة */
+.col-data { background:#f7f7f7; font-weight:bold; }
+.col-91 { background:#e8f5e9; }
+.col-95 { background:#fdecea; }
+.col-D  { background:#fffde7; }
+
+input {
+  width: 90%;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .result {
   font-weight: bold;
-  display: block;
-  margin-top: 3px;
-  font-size: 14px;
-  color: #333;
 }
 </style>
 </head>
+
 <body>
+
+<h2>حاسبة محطات الوقود</h2>
 
 <table>
   <tr>
-    <th class="col1">الوصف</th>
-    <th class="col2">91</th>
-    <th class="col3">95</th>
-    <th class="col4">D</th>
+    <th class="head-data">البيانات</th>
+    <th class="head-91">91</th>
+    <th class="head-95">95</th>
+    <th class="head-D">D</th>
   </tr>
 
   <tr>
-    <td class="col1">كمية الاستهلاك</td>
-    <td class="col2"><input type="number" id="c91" oninput="calcConsumption('c91')"><span class="result" id="r_c91"></span></td>
-    <td class="col3"><input type="number" id="c95" oninput="calcConsumption('c95')"><span class="result" id="r_c95"></span></td>
-    <td class="col4"><input type="number" id="cD" oninput="calcConsumption('cD')"><span class="result" id="r_cD"></span></td>
+    <td class="col-data">ادخل الاستهلاك اليومي</td>
+    <td class="col-91"><input type="number" id="c91" oninput="calcConsumption('91')"></td>
+    <td class="col-95"><input type="number" id="c95" oninput="calcConsumption('95')"></td>
+    <td class="col-D"><input type="number" id="cD" oninput="calcConsumption('D')"></td>
   </tr>
 
   <tr>
-    <td class="col1">الكمية المتوفرة</td>
-    <td class="col2"><input type="number" id="available91" oninput="calcPercentage()"></td>
-    <td class="col3"><input type="number" id="available95" oninput="calcPercentage()"></td>
-    <td class="col4"><input type="number" id="availableD" oninput="calcPercentage()"></td>
+    <td class="col-data">كمية الاستهلاك × 7</td>
+    <td class="col-91 result" id="r91"></td>
+    <td class="col-95 result" id="r95"></td>
+    <td class="col-D result" id="rD"></td>
   </tr>
 
   <tr>
-    <td class="col1">سعة الخزانات</td>
-    <td class="col2"><input type="number" id="capacity91" oninput="calcPercentage()"></td>
-    <td class="col3"><input type="number" id="capacity95" oninput="calcPercentage()"></td>
-    <td class="col4"><input type="number" id="capacityD" oninput="calcPercentage()"></td>
+    <td class="col-data">الكمية المتوفرة في الخزان 1</td>
+    <td class="col-91"><input type="number" id="available91" oninput="calcPercentage()"></td>
+    <td class="col-95"><input type="number" id="available95" oninput="calcPercentage()"></td>
+    <td class="col-D"><input type="number" id="availableD" oninput="calcPercentage()"></td>
   </tr>
 
   <tr>
-    <td class="col1">النسبة</td>
-    <td class="col2"><span class="result" id="percent91">0</span></td>
-    <td class="col3"><span class="result" id="percent95">0</span></td>
-    <td class="col4"><span class="result" id="percentD">0</span></td>
+    <td class="col-data">سعة الخزان 1</td>
+    <td class="col-91"><input type="number" id="capacity91" oninput="calcPercentage()"></td>
+    <td class="col-95"><input type="number" id="capacity95" oninput="calcPercentage()"></td>
+    <td class="col-D"><input type="number" id="capacityD" oninput="calcPercentage()"></td>
   </tr>
 
   <tr>
-    <td class="col1">عدد الخزانات</td>
-    <td class="col2"><input type="number" id="tanks91"></td>
-    <td class="col3"><input type="number" id="tanks95"></td>
-    <td class="col4"><input type="number" id="tanksD"></td>
+    <td class="col-data">نسبة المخزون المتوفرة</td>
+    <td class="col-91 result" id="percent91">0</td>
+    <td class="col-95 result" id="percent95">0</td>
+    <td class="col-D result" id="percentD">0</td>
   </tr>
-
-  <tr>
-    <td class="col1">خزانات لا تعمل</td>
-    <td class="col2"><input type="number" id="ntanks91"></td>
-    <td class="col3"><input type="number" id="ntanks95"></td>
-    <td class="col4"><input type="number" id="ntanksD"></td>
-  </tr>
-
-  <tr>
-    <td class="col1">عدد المضخات</td>
-    <td class="col2"><input type="number" id="pumps91"></td>
-    <td class="col3"><input type="number" id="pumps95"></td>
-    <td class="col4"><input type="number" id="pumpsD"></td>
-  </tr>
-
-  <tr>
-    <td class="col1">مضخات لا تعمل</td>
-    <td class="col2"><input type="number" id="npumps91"></td>
-    <td class="col3"><input type="number" id="npumps95"></td>
-    <td class="col4"><input type="number" id="npumpsD"></td>
-  </tr>
-
-  <tr>
-    <td class="col1">عدد الاهواز</td>
-    <td class="col2"><input type="number" id="valves91"></td>
-    <td class="col3"><input type="number" id="valves95"></td>
-    <td class="col4"><input type="number" id="valvesD"></td>
-  </tr>
-
-  <tr>
-    <td class="col1">اهواز لا تعمل</td>
-    <td class="col2"><input type="number" id="nvalves91"></td>
-    <td class="col3"><input type="number" id="nvalves95"></td>
-    <td class="col4"><input type="number" id="nvalvesD"></td>
-  </tr>
-
 </table>
 
 <script>
-function calcConsumption(id) {
-  const input = document.getElementById(id);
-  const result = document.getElementById('r_' + id);
-  const value = parseFloat(input.value);
-  if(!isNaN(value)) {
-    result.innerText = ' → ' + (value * 7);
-  } else {
-    result.innerText = '';
-  }
+function calcConsumption(type) {
+  const val = parseFloat(document.getElementById('c'+type).value);
+  document.getElementById('r'+type).innerText =
+    !isNaN(val) ? val * 7 : '';
 }
 
 function calcPercentage() {
-  const types = ['91', '95', 'D'];
-  types.forEach(type => {
-    const available = parseFloat(document.getElementById('available'+type).value);
-    const capacity = parseFloat(document.getElementById('capacity'+type).value);
-    const percent = document.getElementById('percent'+type);
-    if(!isNaN(available) && !isNaN(capacity) && capacity !== 0){
-      percent.innerText = (available / capacity).toFixed(2);
+  ['91','95','D'].forEach(type => {
+    const a = parseFloat(document.getElementById('available'+type).value);
+    const c = parseFloat(document.getElementById('capacity'+type).value);
+    const out = document.getElementById('percent'+type);
+
+    if(!isNaN(a) && !isNaN(c) && c !== 0){
+      out.innerText = (a / c).toFixed(2); // نفس 0.22
     } else {
-      percent.innerText = '0';
+      out.innerText = '0';
     }
   });
 }
