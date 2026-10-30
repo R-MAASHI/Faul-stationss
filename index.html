@@ -6,52 +6,118 @@
 <style>
 body {
     font-family: "Tajawal", sans-serif;
-    background: #f2f2f2;
+    background: #0A2540;
+    color: #ffffff;
+    margin: 0;
     padding: 20px;
 }
+
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-brand img {
+    height: 55px;
+    width: auto;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-text .title-ministry {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.header-text .title-app {
+    font-size: 14px;
+    color: #b0c4de;
+}
+
 h2 {
     text-align: center;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 25px;
 }
+
 table {
     border-collapse: collapse;
     margin: auto;
-    background: #fff;
+    background: #ffffff;
     border-radius: 8px;
     overflow: hidden;
+    color: #333333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
+
 th, td {
-    border: 1px solid #aaa;
+    border: 1px solid #ddd;
     text-align: center;
     font-size: 14px;
-    width: 100px;
-    height: 50px;
+    width: 90px;
+    height: 45px;
 }
+
 th {
-    background: #333;
+    background: #1d3557;
     color: #fff;
 }
-.col-91 { background: #4caf50; color:#fff;} /* أخضر واضح */
-.col-95 { background: #f44336; color:#fff;} /* أحمر واضح */
-.col-d  { background: #ffeb3b; color:#333;} /* أصفر واضح */
+
+.col-91 { background: #4caf50; color:#fff; } /* أخضر */
+.col-95 { background: #f44336; color:#fff; } /* أحمر */
+.col-98 { background: #9c27b0; color:#fff; } /* بنفسجي */
+.col-d  { background: #ff9800; color:#fff; } /* برتقالي/أصفر */
+.col-k  { background: #00bcd4; color:#fff; } /* سماوي للكيروسين */
+
 input {
-    width: 90%;
-    height: 30px;
-    padding: 3px;
+    width: 85%;
+    height: 28px;
+    padding: 2px;
     border: 1px solid #ccc;
     border-radius: 4px;
     text-align: center;
     font-size: 14px;
 }
+
 .result {
     font-weight: bold;
-    background: #eee;
+    background: #f0f4f8;
+    color: #1d3557;
 }
+
 .small-input {
-    width: 60px;
+    width: 70px;
+    background-color: #f9f9f9;
 }
 </style>
 </head>
 <body>
+
+<div class="header">
+    <div class="header-brand">
+        <!-- شعار وزارة الطاقة -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Ministry_of_Energy_%28Saudi_Arabia%29_Logo.svg/512px-Ministry_of_Energy_%28Saudi_Arabia%29_Logo.svg.png" alt="شعار وزارة الطاقة">
+        <div class="header-text">
+            <span class="title-ministry">وزارة الطاقة</span>
+            <span class="title-app">حاسبة محطات الوقود</span>
+        </div>
+    </div>
+</div>
 
 <h2>حاسبة محطات الوقود</h2>
 
@@ -60,76 +126,97 @@ input {
         <th>البيانات</th>
         <th class="col-91">91</th>
         <th class="col-95">95</th>
+        <th class="col-98">98</th>
         <th class="col-d">D</th>
+        <th class="col-k">كيروسين</th>
     </tr>
 
     <tr>
         <td>ادخل الاستهلاك اليومي</td>
         <td><input type="number" oninput="updateConsumption()" id="daily_91" placeholder="كمية"></td>
         <td><input type="number" oninput="updateConsumption()" id="daily_95" placeholder="كمية"></td>
+        <td><input type="number" oninput="updateConsumption()" id="daily_98" placeholder="كمية"></td>
         <td><input type="number" oninput="updateConsumption()" id="daily_d" placeholder="كمية"></td>
+        <td><input type="number" oninput="updateConsumption()" id="daily_k" placeholder="كمية"></td>
     </tr>
 
     <tr>
         <td>كمية الاستهلاك × 7</td>
         <td><input type="number" id="consumption_91" readonly class="small-input"></td>
         <td><input type="number" id="consumption_95" readonly class="small-input"></td>
+        <td><input type="number" id="consumption_98" readonly class="small-input"></td>
         <td><input type="number" id="consumption_d" readonly class="small-input"></td>
+        <td><input type="number" id="consumption_k" readonly class="small-input"></td>
     </tr>
 
     <tr>
         <td>الكمية المتوفرة في الخزان 1</td>
         <td><input type="number" oninput="calc()" id="t1_91"></td>
         <td><input type="number" oninput="calc()" id="t1_95"></td>
+        <td><input type="number" oninput="calc()" id="t1_98"></td>
         <td><input type="number" oninput="calc()" id="t1_d"></td>
+        <td><input type="number" oninput="calc()" id="t1_k"></td>
     </tr>
 
     <tr>
         <td>الكمية المتوفرة في الخزان 2</td>
         <td><input type="number" oninput="calc()" id="t2_91"></td>
         <td><input type="number" oninput="calc()" id="t2_95"></td>
+        <td><input type="number" oninput="calc()" id="t2_98"></td>
         <td><input type="number" oninput="calc()" id="t2_d"></td>
+        <td><input type="number" oninput="calc()" id="t2_k"></td>
     </tr>
 
     <tr>
         <td>الكمية المتوفرة في الخزان 3</td>
         <td><input type="number" oninput="calc()" id="t3_91"></td>
         <td><input type="number" oninput="calc()" id="t3_95"></td>
+        <td><input type="number" oninput="calc()" id="t3_98"></td>
         <td><input type="number" oninput="calc()" id="t3_d"></td>
+        <td><input type="number" oninput="calc()" id="t3_k"></td>
     </tr>
 
     <tr>
         <td>سعة الخزان 1</td>
         <td><input type="number" oninput="calc()" id="c1_91"></td>
         <td><input type="number" oninput="calc()" id="c1_95"></td>
+        <td><input type="number" oninput="calc()" id="c1_98"></td>
         <td><input type="number" oninput="calc()" id="c1_d"></td>
+        <td><input type="number" oninput="calc()" id="c1_k"></td>
     </tr>
 
     <tr>
         <td>سعة الخزان 2</td>
         <td><input type="number" oninput="calc()" id="c2_91"></td>
         <td><input type="number" oninput="calc()" id="c2_95"></td>
+        <td><input type="number" oninput="calc()" id="c2_98"></td>
         <td><input type="number" oninput="calc()" id="c2_d"></td>
+        <td><input type="number" oninput="calc()" id="c2_k"></td>
     </tr>
 
     <tr>
         <td>سعة الخزان 3</td>
         <td><input type="number" oninput="calc()" id="c3_91"></td>
         <td><input type="number" oninput="calc()" id="c3_95"></td>
+        <td><input type="number" oninput="calc()" id="c3_98"></td>
         <td><input type="number" oninput="calc()" id="c3_d"></td>
+        <td><input type="number" oninput="calc()" id="c3_k"></td>
     </tr>
 
     <tr>
         <td>نسبة المخزون المتوفرة</td>
         <td class="result" id="r_91"></td>
         <td class="result" id="r_95"></td>
+        <td class="result" id="r_98"></td>
         <td class="result" id="r_d"></td>
+        <td class="result" id="r_k"></td>
     </tr>
 </table>
 
 <script>
+const fuels = ["91", "95", "98", "d", "k"];
+
 function updateConsumption(){
-    const fuels = ["91","95","d"];
     fuels.forEach(f => {
         let daily = +document.getElementById(`daily_${f}`).value || 0;
         document.getElementById(`consumption_${f}`).value = daily * 7;
@@ -138,7 +225,6 @@ function updateConsumption(){
 }
 
 function calc(){
-    const fuels = ["91","95","d"];
     fuels.forEach(f => {
         let t1 = +document.getElementById(`t1_${f}`).value || 0;
         let t2 = +document.getElementById(`t2_${f}`).value || 0;
@@ -150,7 +236,6 @@ function calc(){
         let totalAmount = t1 + t2 + t3;
         let totalCap = c1 + c2 + c3;
 
-        // النسبة أول 5 أرقام دقيقة
         let percent = totalCap ? (totalAmount / totalCap).toPrecision(5) : "";
         document.getElementById(`r_${f}`).innerText = percent;
     });
